@@ -36,6 +36,17 @@ header a {
 .header-ul li {
   margin-left: 30px;
 }
+.header-ul li button {
+  font-size: 20px;
+  padding: 5px;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.header-ul li button:hover {
+  background-color: #ebebec;
+}
 
 .title {
   font-size: 50px;
@@ -67,14 +78,32 @@ header a {
   padding: 50px;
   background-color: lightcyan;
 }
-.skills-img {
-  display: flex;
-  justify-content: center;
-  gap: 100px;
-}
-.skills img {
+.slide-container {
   width: 550px;
   height: 200px;
+  overflow: hidden; /* 넘치는 요소 숨김 */
+  margin: 0 auto; /* 수평 중앙 정렬 */
+}
+.slide-box {
+  width: 1100px;
+  display: flex;
+  justify-content: center;
+  transition: all 1s;
+}
+.slide-box img {
+  width: 550px;
+  height: 200px;
+}
+.arrow-btn {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+.arrow-btn button {
+  border: none;
+  background-color: lightcyan;
+  font-size: 50px;
 }
 
 .archiving {

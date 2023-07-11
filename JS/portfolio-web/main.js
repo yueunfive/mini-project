@@ -1,7 +1,7 @@
 // 화면(viewport)가 스크롤 될때마다 투명도, 크기 조절
+// 오류 : 윗쪽 화면까지 가로 너비 늘어남
 $(window).scroll(function () {
   var height = $(window).scrollTop();
-  console.log($(window).scrollTop());
   for (let i = 0; i < 6; i++) {
     let y1 = (-1 / 310) * height + (234 + 40 * i) / 31;
     $(".card-box").eq(i).css("opacity", y1);
@@ -23,3 +23,27 @@ $(window).scroll(function () {
 // var y6 = (-1 / 310) * height + 434 / 31; // 스크롤바 높이가 4030~4340이 될 때 1~0이 되는 가변적인 값
 // $(".card-box").eq(5).css("opacity", y6);
 // y2는 스크롤바 높이에 따라 1~0.9이 되는 가변적인 값
+
+// 캐러셀 기능
+let presentImg = 1;
+$(".slideAfter").on("click", function () {
+  if (presentImg == 1) {
+    $(".slide-box").css("transform", "translateX(-550px)");
+    presentImg++;
+  }
+});
+$(".slideBefore").on("click", function () {
+  if (presentImg == 2) {
+    $(".slide-box").css("transform", "translateX(0px)");
+    presentImg--;
+  }
+});
+
+// 클릭시 특정 위치로 이동(스크롤)
+for (let i = 0; i < 4; i++) {
+  $(".header-ul li button")
+    .eq(i)
+    .on("click", function () {
+      window.scrollTo({ top: 640 * i, behavior: "smooth" });
+    });
+}

@@ -12,10 +12,10 @@
         <span>YUEUN OH</span>
       </a>
       <ul class="header-ul">
-        <li>Intro</li>
-        <li>Skills</li>
-        <li>Archiving</li>
-        <li>Projects</li>
+        <li><button>Intro</button></li>
+        <li><button>Skills</button></li>
+        <li><button>Archiving</button></li>
+        <li><button>Projects</button></li>
       </ul>
     </header>
     <section>
@@ -32,9 +32,21 @@
       </div>
       <div class="skills">
         <h1 class="title">Skills</h1>
-        <div class="skills-img">
-          <img src="img/HCJ.png" />
-          <img src="img/React.png" />
+        <div class="slide-container">
+          <!-- carousel -->
+          <div class="slide-box">
+            <div class="slide-img">
+              <img src="img/HCJ.png" draggable="false" />
+              <!--draggable="false" : HTML 드래그 & 이동 안됨-->
+            </div>
+            <div class="slide-img">
+              <img src="img/React.png" draggable="false" />
+            </div>
+          </div>
+        </div>
+        <div class="arrow-btn">
+          <button class="slideBefore">👈</button>
+          <button class="slideAfter">👉</button>
         </div>
       </div>
       <div class="archiving">
