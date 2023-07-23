@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import rock from "./rock.jpg";
-import scissors from "./scissors.jpg";
-import paper from "./paper.jpg";
+import React, { useState, useEffect } from "react";
+
+import Result from "./Result";
 
 function Game() {
   const [userChoice, setUserChoice] = useState("");
@@ -15,51 +14,63 @@ function Game() {
   }
 
   // 컴퓨터 선택(랜덤)
+  // useEffect로 비동기 문제 해결!(이 부분은 좀 더 공부해야 할듯)
+  useEffect(() => {
+    if (userChoice !== "") {
+      handleComputerChoice();
+    }
+  }, [userChoice]);
+
   function handleComputerChoice() {
     const choices = ["rock", "scissors", "paper"];
-    const computerRandomChoice = choices[Math.floor(Math.random() * 3)]; // 랜덤 함수 공부할 필요 있다!
+    const computerRandomChoice = choices[Math.floor(Math.random() * 3)];
     setComputerChoice(computerRandomChoice);
-    getResult();
   }
 
   // 승패 여부 체크
+  // useEffect로 비동기 문제 해결!(이 부분은 좀 더 공부해야 할듯)
+  useEffect(() => {
+    if (userChoice !== "" && computerChoice !== "") {
+      getResult();
+    }
+  }, [userChoice, computerChoice]);
+
   function getResult() {
-    if (userChoice === computerChoice) {
-      setResult("비겼습니다😗");
-    } else if (
+    if (
       (userChoice === "rock" && computerChoice === "scissors") ||
       (userChoice === "scissors" && computerChoice === "paper") ||
       (userChoice === "paper" && computerChoice === "rock")
     ) {
       setResult("이겼습니다😀");
-    } else {
+    } else if (
+      (userChoice === "scissors" && computerChoice === "rock") ||
+      (userChoice === "paper" && computerChoice === "scissors") ||
+      (userChoice === "rock" && computerChoice === "paper")
+    ) {
       setResult("졌습니다🥲");
+    } else {
+      setResult("비겼습니다😗");
     }
   }
 
-  // 결과 화면을 보여주는 컴포넌트
-  //  컴포넌트 안에 다른 컴포넌트를 포함시킬 수 있음!
-  function Result() {
-    return (
-      <div>
-        {result}
-        <button onClick={() => window.location.reload()}>Play Again</button>
-      </div>
-    );
-  }
-
+  // 각각의 가위, 바위, 보 선택 버튼 컴포넌트
   return (
     <div>
-      <button onClick={() => handleUserChoice("rock")}>
-        <img src={rock} alt="Rock" />
-      </button>
-      <button onClick={() => handleUserChoice("scissors")}>
-        <img src={scissors} alt="Scissors" />
-      </button>
-      <button onClick={() => handleUserChoice("paper")}>
-        <img src={paper} alt="Paper" />
-      </button>
-      {userChoice !== "" && computerChoice !== "" && <Result />}
+      <Result
+        result={result}
+        setResult={setResult}
+        userChoice={userChoice}
+        setUserChoice={setUserChoice}
+        computerChoice={computerChoice}
+        setComputerChoice={setComputerChoice}
+      />
+      <div style={{ marginTop: "20px" }}>
+        <button onClick={() => handleUserChoice("rock")}>✊</button>
+        <button onClick={() => handleUserChoice("scissors")}>✌️</button>
+        <button onClick={() => handleUserChoice("paper")}>🖐️</button>
+      </div>
     </div>
   );
 }
+
+export default Game;
