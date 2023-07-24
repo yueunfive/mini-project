@@ -14,7 +14,7 @@ function Game() {
   }
 
   // 컴퓨터 선택(랜덤)
-  // useEffect로 비동기 문제 해결!(이 부분은 좀 더 공부해야 할듯)
+  // useEffect를 사용하여 순서를 정리함으로써 비동기 문제를 해결
   useEffect(() => {
     if (userChoice !== "") {
       handleComputerChoice();
@@ -23,12 +23,13 @@ function Game() {
 
   function handleComputerChoice() {
     const choices = ["rock", "scissors", "paper"];
-    const computerRandomChoice = choices[Math.floor(Math.random() * 3)];
+    const computerRandomChoice = choices[Math.floor(Math.random() * 3)]; // 난수 생성
     setComputerChoice(computerRandomChoice);
+    getResult();
   }
 
   // 승패 여부 체크
-  // useEffect로 비동기 문제 해결!(이 부분은 좀 더 공부해야 할듯)
+  // useEffect를 사용하여 순서를 정리함으로써 비동기 문제를 해결
   useEffect(() => {
     if (userChoice !== "" && computerChoice !== "") {
       getResult();
@@ -64,7 +65,7 @@ function Game() {
         computerChoice={computerChoice}
         setComputerChoice={setComputerChoice}
       />
-      <div style={{ marginTop: "20px" }}>
+      <div className="btn">
         <button onClick={() => handleUserChoice("rock")}>✊</button>
         <button onClick={() => handleUserChoice("scissors")}>✌️</button>
         <button onClick={() => handleUserChoice("paper")}>🖐️</button>

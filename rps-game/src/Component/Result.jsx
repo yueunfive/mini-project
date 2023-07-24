@@ -30,7 +30,7 @@ function Result({
         </div>
       </div>
       <ResultInfo result={result} />
-      <button onClick={handlePlayAgain} style={{ marginTop: "20px" }}>
+      <button onClick={handlePlayAgain} className="replay-btn">
         Play Again!
       </button>
     </div>
