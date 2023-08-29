@@ -19,6 +19,11 @@
   color: gray;
 }
 
+.btn_col {
+  display: flex;
+  gap: 5px;
+}
+
 .btn_col button {
   cursor: pointer;
   color: gray;

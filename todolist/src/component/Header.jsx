@@ -1,4 +1,4 @@
-import "./Header.css";
+import styles from "./Header.module.css";
 
 // 날짜를 원하는 형식으로 변환하는 함수
 const formatDate = (dateString) => {
@@ -6,11 +6,11 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("ko-KR", options);
 };
 
-const Header = ({ date }) => {
-  const formattedDate = formatDate(date);
+const Header = ({ dateId }) => {
+  const formattedDate = formatDate(dateId);
 
   return (
-    <div className="Header">
+    <div className={styles.Header}>
       <h3>오늘은 📆</h3>
       <h1>{formattedDate}</h1>
     </div>

@@ -1,27 +1,38 @@
-import "./TodoItem.css";
+import Emoji from "./Emoji";
+import styles from "./TodoItem.module.css";
 import { useState, useRef } from "react";
 
 const TodoItem = ({
-  id,
+  plan_id,
   content,
-  isDone,
-  createdDate,
+  is_checked,
+  date,
   onUpdate,
   onDelete,
   onEdit,
+  onReview,
 }) => {
   const onChangeCheckbox = () => {
-    onUpdate(id);
+    onUpdate(plan_id);
   };
 
   const onClickDelete = () => {
-    onDelete(id);
+    onDelete(plan_id);
   };
 
   let style1 = { color: "black" };
   let style2 = { color: "gray", textDecorationLine: "line-through" };
 
   const [isEdit, setIsEdit] = useState(false); // isEdit ? 수정중 : 수정중 X
+  const [feel, setFeel] = useState(false);
+  const [emojiSelection, setEmojiSelection] = useState(null);
+
+  const onSelectEmoji = (selectedEmoji) => {
+    setEmojiSelection(selectedEmoji); // 선택한 이모지를 상태로 관리
+    onReview(plan_id, selectedEmoji);
+    setFeel(false); // 이모지 목록 숨기기
+  };
+
   const toggleIsEdit = () => setIsEdit(!isEdit);
 
   // 수정 입력창에 적은 데이터
@@ -44,7 +55,7 @@ const TodoItem = ({
       localContentInput.current.focus();
       return;
     }
-    onEdit(id, localContent); // id(타겟아이디), localContent(새로 바뀌는 컨텐츠)를 onEdit 함수에 인자로 전달
+    onEdit(plan_id, localContent); // plan_id(타겟아이디), localContent(새로 바뀌는 컨텐츠)를 onEdit 함수에 인자로 전달
     toggleIsEdit(); // isEdit를 true에서 false로 반환시켜서 수정폼을 닫기.
   };
 
@@ -56,12 +67,16 @@ const TodoItem = ({
   };
 
   return (
-    <div className="TodoItem">
-      <div className="checkbox_col">
-        <input onChange={onChangeCheckbox} checked={isDone} type="checkbox" />
+    <div className={styles.TodoItem}>
+      <div className={styles.checkbox_col}>
+        <input
+          onChange={onChangeCheckbox}
+          checked={is_checked}
+          type="checkbox"
+        />
       </div>
-      <div className="title_col">
-        <span style={isDone ? style2 : style1}>
+      <div className={styles.title_col}>
+        <span style={is_checked ? style2 : style1}>
           {/* isEdit ? 수정 입력창 : 원래 content값 */}
           {isEdit ? (
             <>
@@ -79,10 +94,10 @@ const TodoItem = ({
           )}
         </span>
       </div>
-      <div className="date_col">
-        {new Date(createdDate).toLocaleDateString()}
+      <div className={styles.date_col}>
+        {new Date(date).toLocaleDateString()}
       </div>
-      <div className="btn_col">
+      <div className={styles.btn_col}>
         {isEdit ? (
           <>
             {/* 수정버튼을 눌렀을 때(isEdit === true)의 버튼들 */}
@@ -92,6 +107,10 @@ const TodoItem = ({
         ) : (
           <>
             {/* 수정중이 아닐떄의 버튼들 */}
+            <button onClick={() => setFeel(!feel)}>
+              {emojiSelection === null ? "감정" : emojiSelection}
+              {feel && <Emoji onSelectEmoji={onSelectEmoji} />}
+            </button>
             <button onClick={toggleIsEdit}>수정</button>
             <button onClick={onClickDelete}>삭제</button>
           </>

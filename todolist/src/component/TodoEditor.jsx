@@ -1,4 +1,4 @@
-import "./TodoEditor.css";
+import styles from "./TodoEditor.module.css";
 import { useState, useRef } from "react";
 
 const TodoEditor = ({ onCreate }) => {
@@ -25,9 +25,9 @@ const TodoEditor = ({ onCreate }) => {
   };
 
   return (
-    <div className="TodoEditor">
+    <div className={styles.TodoEditor}>
       <h4>새로운 Todo 작성하기 ✏️</h4>
-      <div className="editor_wrapper">
+      <div className={styles.editor_wrapper}>
         <input
           ref={inputRef}
           value={content}

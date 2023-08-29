@@ -13,7 +13,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="signUp" element={<SignUp />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/todopage/:date" element={<TodoPage />} />
+          <Route path="/todopage/:dateId" element={<TodoPage />} />
         </Routes>
       </Router>
     </div>

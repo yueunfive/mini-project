@@ -1,8 +1,8 @@
-import "./TodoList.css";
+import styles from "./TodoList.module.css";
 import TodoItem from "./TodoItem";
 import { useState } from "react";
 
-const TodoList = ({ todo, onUpdate, onDelete, onEdit }) => {
+const TodoList = ({ todo, onUpdate, onDelete, onEdit, onReview }) => {
   const [search, setSearch] = useState("");
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -18,22 +18,23 @@ const TodoList = ({ todo, onUpdate, onDelete, onEdit }) => {
   };
 
   return (
-    <div className="TodoList">
+    <div className={styles.TodoList}>
       <h4>Todo List 📘</h4>
       <input
         value={search}
         onChange={onChangeSearch}
-        className="searchbar"
+        className={styles.searchbar}
         placeholder="검색어를 입력하세요"
       />
-      <div className="list_wrapper">
+      <div className={styles.list_wrapper}>
         {getSearchResults().map((it) => (
           <TodoItem
-            key={it.id}
+            key={it.plan_id}
             {...it}
             onUpdate={onUpdate}
             onDelete={onDelete}
             onEdit={onEdit}
+            onReview={onReview}
           />
           // {...it} : 컴포넌트에 it 객체 각각의 프로퍼티 전달
         ))}

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import loginImg from "../img/passion.png";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import styles from "./Login.module.css";
+import axios from "axios";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -30,23 +31,46 @@ export default function Login() {
   const handleOnKeyPress = (e) => {
     if (e.key === "Enter") {
       if (wordCondition()) {
-        goHome();
+        handleLogin();
       }
     }
   };
 
+  const handleLogin = () => {
+    if (!wordCondition()) {
+      return; // 조건 충족하지 않으면 함수 종료
+    }
+
+    const url = `http://toodoolist.shop/api/users/log-in`;
+    const requestData = {
+      username: id,
+      password: pw,
+    };
+
+    axios
+      .post(url, requestData)
+      .then((response) => {
+        console.log(response.data);
+        localStorage.setItem("userId", response.data.userId); // userId를 localStorage에 저장해서 두고두고 쓰자 꺄르륵
+        goHome();
+      })
+      .catch((error) => {
+        console.error("에러 발생:", error);
+      });
+  };
+
   return (
-    <div className="Login">
-      <div className="loginPage">
+    <div className={styles.Login}>
+      <div className={styles.loginPage}>
         <img src={loginImg} alt="" width="500px" />
-        <div className="loginBox">
-          <div className="phrase">
+        <div className={styles.loginBox}>
+          <div className={styles.phrase}>
             <p>한사랑</p>
             <p>일정관리</p>
           </div>
-          <div className="login">
+          <div className={styles.login}>
             <input
-              className="ID"
+              className={styles.ID}
               type="email"
               placeholder="아이디를 입력하세요"
               value={id} // id 값 업데이트
@@ -54,7 +78,7 @@ export default function Login() {
             />
             <br />
             <input
-              className="PW"
+              className={styles.PW}
               type="password"
               placeholder="비밀번호를 입력하세요"
               onKeyPress={handleOnKeyPress}
@@ -62,8 +86,8 @@ export default function Login() {
               onChange={(e) => setPw(e.target.value)} // pw 값을 변경할 때마다 업데이트
             />
             <br />
-            <button onClick={() => wordCondition() && goHome()}>로그인</button>
-            <p className="sign_up" onClick={goSignUp}>
+            <button onClick={handleLogin}>로그인</button>
+            <p className={styles.sign_up} onClick={goSignUp}>
               아직 회원이 아니라고요?
             </p>
           </div>
