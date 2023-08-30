@@ -17,14 +17,14 @@ const Home = () => {
     localStorage.setItem("month", String(month));
     localStorage.setItem("day", String(day));
     setSelectedDate(date);
-    navigate(`/TodoPage/${formattedDate}`);
+    navigate(`/todoPage/${formattedDate}`);
   };
 
   const handleLogout = () => {
     const userId = localStorage.getItem("userId");
 
     axios
-      .get(`http://toodoolist.shop/api/users/${userId}/log-out`)
+      .get(`/api/users/${userId}/log-out`)
       .then((response) => {
         console.log(response.data);
         navigate("/");

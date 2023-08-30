@@ -7,13 +7,13 @@ const TodoItem = ({
   content,
   is_checked,
   date,
-  onUpdate,
+  onCheck,
   onDelete,
   onEdit,
   onReview,
 }) => {
   const onChangeCheckbox = () => {
-    onUpdate(plan_id);
+    onCheck(plan_id);
   };
 
   const onClickDelete = () => {

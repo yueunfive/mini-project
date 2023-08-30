@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import loginImg from "../img/passion.png";
+import loginImg from "../img/lion.jpeg";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import axios from "axios";
@@ -41,7 +41,7 @@ export default function Login() {
       return; // 조건 충족하지 않으면 함수 종료
     }
 
-    const url = `http://toodoolist.shop/api/users/log-in`;
+    const url = `/api/users/log-in`;
     const requestData = {
       username: id,
       password: pw,
@@ -56,6 +56,7 @@ export default function Login() {
       })
       .catch((error) => {
         console.error("에러 발생:", error);
+        alert("아이디 또는 비밀번호를 잘못 입력했습니다.");
       });
   };
 
@@ -65,7 +66,7 @@ export default function Login() {
         <img src={loginImg} alt="" width="500px" />
         <div className={styles.loginBox}>
           <div className={styles.phrase}>
-            <p>한사랑</p>
+            <p>멋사</p>
             <p>일정관리</p>
           </div>
           <div className={styles.login}>

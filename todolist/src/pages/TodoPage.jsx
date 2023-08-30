@@ -16,9 +16,7 @@ function TodoPage() {
     const month = parseInt(localStorage.getItem("month")); // parseInt : 문자열 -> 숫자
     const day = parseInt(localStorage.getItem("day"));
     axios
-      .get(
-        `http://toodoolist.shop/api/plans/{user_id}?month=${month}&day=${day}`
-      )
+      .get(`/api/plans/{user_id}?month=${month}&day=${day}`)
       .then((response) => {
         console.log(response.data);
         setTodo(response.data);
@@ -35,13 +33,10 @@ function TodoPage() {
   // 아이템 추가 함수(일정 작성)
   const onCreate = async (content) => {
     try {
-      const response = await axios.post(
-        `http://toodoolist.shop/api/plans/${userId}`,
-        {
-          date: new Date().toISOString(), // ISO 8601 형식으로 변환
-          content: content,
-        }
-      );
+      const response = await axios.post(`/api/plans/${userId}`, {
+        date: new Date().toISOString(), // ISO 8601 형식으로 변환
+        content: content,
+      });
       setTodo([response.data, ...todo]);
     } catch (error) {
       console.error("POST 요청 실패:", error);
@@ -49,12 +44,12 @@ function TodoPage() {
   };
 
   // 아이템 체크 함수(일정 완료)
-  const onUpdate = async (targetId) => {
+  const onCheck = async (targetId) => {
     const targetIndex = todo.findIndex((it) => it.plan_id === targetId);
 
     try {
       const response = await axios.patch(
-        `http://toodoolist.shop/api/plans/${userId}/${targetId}/check`,
+        `/api/plans/${userId}/${targetId}/check`,
         { is_checked: !todo[targetIndex].is_checked }
       );
 
@@ -70,9 +65,7 @@ function TodoPage() {
   // 아이템 삭제 함수(일정 삭제)
   const onDelete = async (targetId) => {
     try {
-      await axios.delete(
-        `http://toodoolist.shop/api/plans/${userId}/${targetId}`
-      );
+      await axios.delete(`/api/plans/${userId}/${targetId}`);
       setTodo(todo.filter((it) => it.plan_id !== targetId));
     } catch (error) {
       console.error("에러 발생:", error);
@@ -82,10 +75,9 @@ function TodoPage() {
   // 아이템 수정 함수(일정 수정)
   const onEdit = async (targetId, newContent) => {
     try {
-      await axios.patch(
-        `http://toodoolist.shop/api/plans/${userId}/${targetId}`,
-        { content: newContent }
-      );
+      await axios.patch(`/api/plans/${userId}/${targetId}`, {
+        content: newContent,
+      });
       setTodo(
         todo.map((it) =>
           it.plan_id === targetId ? { ...it, content: newContent } : it
@@ -99,10 +91,9 @@ function TodoPage() {
   // 일정 후기(이모지)
   const onReview = async (targetId, newEmoji) => {
     try {
-      await axios.patch(
-        `http://toodoolist.shop/api/plans/${userId}/${targetId}/reviews`,
-        { emoji: newEmoji }
-      );
+      await axios.patch(`/api/plans/${userId}/${targetId}/reviews`, {
+        emoji: newEmoji,
+      });
       setTodo(
         todo.map((it) =>
           it.plan_id === targetId ? { ...it, emoji: newEmoji } : it
@@ -119,7 +110,7 @@ function TodoPage() {
       <TodoEditor onCreate={onCreate} />
       <TodoList
         todo={todo}
-        onUpdate={onUpdate}
+        onCheck={onCheck}
         onDelete={onDelete}
         onEdit={onEdit}
         onReview={onReview}

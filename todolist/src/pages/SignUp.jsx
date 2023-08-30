@@ -19,7 +19,7 @@ const SignUp = () => {
   };
 
   const handlePostRequest = () => {
-    const url = "http://toodoolist.shop/api/users/sign-up";
+    const url = "/api/users/sign-up";
     const data = {
       username: id,
       password: pw,

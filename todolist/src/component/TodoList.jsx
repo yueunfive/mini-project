@@ -2,7 +2,7 @@ import styles from "./TodoList.module.css";
 import TodoItem from "./TodoItem";
 import { useState } from "react";
 
-const TodoList = ({ todo, onUpdate, onDelete, onEdit, onReview }) => {
+const TodoList = ({ todo, onCheck, onDelete, onEdit, onReview }) => {
   const [search, setSearch] = useState("");
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -31,7 +31,7 @@ const TodoList = ({ todo, onUpdate, onDelete, onEdit, onReview }) => {
           <TodoItem
             key={it.plan_id}
             {...it}
-            onUpdate={onUpdate}
+            onCheck={onCheck}
             onDelete={onDelete}
             onEdit={onEdit}
             onReview={onReview}
