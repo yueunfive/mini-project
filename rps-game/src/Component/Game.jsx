@@ -6,12 +6,22 @@ function Game() {
   const [userChoice, setUserChoice] = useState("");
   const [computerChoice, setComputerChoice] = useState("");
   const [result, setResult] = useState("");
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   // 유저(플레이어) 선택
   function handleUserChoice(choice) {
     setUserChoice(choice);
     handleComputerChoice();
+    setIsGameStarted(true);
   }
+
+  // 게임 재시작
+  const handlePlayAgain = () => {
+    setUserChoice("");
+    setComputerChoice("");
+    setResult("");
+    setIsGameStarted(false);
+  };
 
   // 컴퓨터 선택(랜덤)
   // useEffect를 사용하여 순서를 정리함으로써 비동기 문제를 해결
@@ -59,17 +69,20 @@ function Game() {
     <div>
       <Result
         result={result}
-        setResult={setResult}
         userChoice={userChoice}
-        setUserChoice={setUserChoice}
         computerChoice={computerChoice}
-        setComputerChoice={setComputerChoice}
       />
-      <div className="btn">
-        <button onClick={() => handleUserChoice("rock")}>✊</button>
-        <button onClick={() => handleUserChoice("scissors")}>✌️</button>
-        <button onClick={() => handleUserChoice("paper")}>🖐️</button>
-      </div>
+      {isGameStarted ? (
+        <button onClick={handlePlayAgain} className="replay-btn">
+          Play Again!
+        </button>
+      ) : (
+        <div className="btn">
+          <button onClick={() => handleUserChoice("rock")}>✊</button>
+          <button onClick={() => handleUserChoice("scissors")}>✌️</button>
+          <button onClick={() => handleUserChoice("paper")}>🖐️</button>
+        </div>
+      )}
     </div>
   );
 }

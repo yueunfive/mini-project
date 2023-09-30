@@ -5,18 +5,11 @@ import ResultInfo from "./ResultInfo";
 // 컴포넌트 안에 다른 컴포넌트를 포함시킬 수 있다!(Game > Result > (ChoiceImage, ResultInfo))
 function Result({
   result,
-  setResult,
-  userChoice,
-  setUserChoice,
-  computerChoice,
-  setComputerChoice,
-}) {
-  const handlePlayAgain = () => {
-    setUserChoice("");
-    setComputerChoice("");
-    setResult("");
-  };
 
+  userChoice,
+
+  computerChoice,
+}) {
   return (
     <div>
       <div className="choices">
@@ -30,9 +23,6 @@ function Result({
         </div>
       </div>
       <ResultInfo result={result} />
-      <button onClick={handlePlayAgain} className="replay-btn">
-        Play Again!
-      </button>
     </div>
   );
 }
