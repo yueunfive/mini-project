@@ -7,6 +7,7 @@ function TodoBoard(props) {
     <div className={styles.TodoBoard}>
       {props.todoList.map((item, i) => (
         <TodoItem
+          key={i}
           item={item}
           i={i}
           todoList={props.todoList}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoBoard from "./TodoBoard";
 import styles from "../css/TodoList.module.css";
 import DatePicker from "react-datepicker";
@@ -17,9 +17,17 @@ export default function TodoList() {
   // spread 연산자로 기존 아이템 복사해서 유지하기
   const addItem = () => {
     if (inputValue != "") {
-      setTodoList([...todoList, inputValue]);
+      const newTodoList = [...todoList, inputValue];
+      setTodoList(newTodoList);
+      localStorage.setItem("todoList", JSON.stringify(newTodoList));
     }
   };
+
+  // 컴포넌트가 마운트될 때 로컬 스토리지에서 투두 리스트 불러오기
+  useEffect(() => {
+    const savedTodoList = JSON.parse(localStorage.getItem("todoList")) || [];
+    setTodoList(savedTodoList);
+  }, []);
 
   // '추가'하면 input란에 써있는 값 비우기
   const handleSave = () => {

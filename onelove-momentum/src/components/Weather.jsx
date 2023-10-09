@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Weather() {
   const [location, setLocation] = useState("");
@@ -21,10 +21,35 @@ export default function Weather() {
         console.log(data);
         setResult(data);
       } catch (err) {
-        alert("그런 도시는 없단다🤫");
+        alert(err);
       }
     }
   };
+
+  // 위치 정보를 가져온 후에 날씨 정보를 검색하는 함수
+  const getLocationAndSearchWeather = async () => {
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+      console.log("현재 위치", lat, lon);
+
+      // 위치 정보를 가져온 후에 API를 호출
+      const data = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+      );
+      console.log(data);
+      setResult(data);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  useEffect(() => {
+    getLocationAndSearchWeather();
+  }, []);
 
   return (
     <WeatherWrap>
@@ -36,17 +61,21 @@ export default function Weather() {
           type="text"
           onKeyDown={searchWeather}
         ></input>
-        {/* 이게 뭐임..? */}
         {Object.keys(result).length !== 0 && (
-          <ResultWrap>
-            <div className="city">{result.data.name}</div>
-            <div className="temperature">
-              {/* 받아온 데이터는 절대 온도 -> 상대온도로 변환해줌 */}
-              {/* Math.round() : 반올림*/}
-              {(Math.round(result.data.main.temp - 273.15) * 10) / 10}°C
+          <Container>
+            <div className="icon">
+              <img
+                src={`https://openweathermap.org/img/wn/${result.data.weather[0].icon}@2x.png`}
+              />
             </div>
-            <div className="sky">{result.data.weather[0].main}</div>
-          </ResultWrap>
+            <ResultWrap>
+              <div className="city">{result.data.name}</div>
+              <div className="temperature">
+                {(Math.round(result.data.main.temp - 273.15) * 10) / 10}°C
+              </div>
+              <div className="sky">{result.data.weather[0].main}</div>
+            </ResultWrap>
+          </Container>
         )}
       </div>
     </WeatherWrap>
@@ -76,10 +105,16 @@ const WeatherWrap = styled.div`
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+`;
+
 const ResultWrap = styled.div`
   margin-top: 60px;
   padding: 10px;
-  border: 1px black solid;
+  border: 1px rgb(176, 216, 176) solid;
   border-radius: 8px;
   .city {
     font-size: 24px;
